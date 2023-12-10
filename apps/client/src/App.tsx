@@ -1,15 +1,24 @@
 import { Routes, Route } from 'react-router-dom'
-import './App.css'
 import { router } from './routes'
 import MainLayout from './layouts/MainLayout'
+import Home from './pages/Home/Home'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import './App.module.scss'
 
 const App = () => {
   return (
     <div>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<div>Home</div>} />
-          <Route path="about" element={<div>About us</div>} />
+          <Route index element={<Home />} />
+          <Route
+            path="about"
+            element={
+              <ProtectedRoute isAllowed={false}>
+                <div>About us</div>
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<div>No Match</div>} />
         </Route>
       </Routes>
