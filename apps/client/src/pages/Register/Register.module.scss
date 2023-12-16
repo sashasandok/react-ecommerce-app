@@ -1,0 +1,20 @@
+.RegisterWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 100px;
+
+  .RegisterFormWrapper {
+    width: 400px;
+
+    h3 {
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .RegisterFormControl {
+      margin: 15px 0px;
+    }
+  }
+}

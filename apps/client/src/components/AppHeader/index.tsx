@@ -14,6 +14,11 @@ const AppHeader = () => {
           <Link to="/about">
             <div>Protected Page</div>
           </Link>
+        </li>{' '}
+        <li>
+          <Link to="/register">
+            <div>Register</div>
+          </Link>
         </li>
         <li>
           <Link to="/no-match">

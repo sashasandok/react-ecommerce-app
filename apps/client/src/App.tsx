@@ -4,6 +4,7 @@ import MainLayout from './layouts/MainLayout'
 import Home from './pages/Home/Home'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import './App.module.scss'
+import Register from './pages/Register'
 
 const App = () => {
   return (
@@ -16,6 +17,14 @@ const App = () => {
             element={
               <ProtectedRoute isAllowed={false}>
                 <div>About us</div>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <ProtectedRoute isAllowed={true}>
+                <Register />
               </ProtectedRoute>
             }
           />
