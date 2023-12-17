@@ -1,6 +1,8 @@
 .HeaderWrapper {
   width: 100%;
   box-shadow: 1px 6px 6px lightgray;
+  display: flex;
+  justify-content: space-between;
 
   .NavList {
     margin: 0;
@@ -38,6 +40,26 @@
         a {
           color: rgb(107, 21, 21);
         }
+      }
+    }
+  }
+
+  .UserInfo {
+    margin: 0;
+    padding: 0;
+    height: 50px;
+
+    li {
+      list-style: none;
+      padding: 0px 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      &:hover {
+        background-color: rgb(218, 218, 218);
+        cursor: pointer;
       }
     }
   }

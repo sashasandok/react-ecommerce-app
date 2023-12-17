@@ -4,9 +4,13 @@ import MainLayout from './layouts/MainLayout'
 import Home from './pages/Home/Home'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import './App.module.scss'
-import Register from './pages/Register'
+import SignUp from './pages/SignUp'
+import SignIn from './pages/SignIn'
+import { useSelector } from 'react-redux'
+import { IState } from './redux/types'
 
 const App = () => {
+  const { isAuthenticated } = useSelector((state: IState) => state.auth)
   return (
     <div>
       <Routes>
@@ -15,19 +19,13 @@ const App = () => {
           <Route
             path="about"
             element={
-              <ProtectedRoute isAllowed={false}>
+              <ProtectedRoute isAllowed={isAuthenticated}>
                 <div>About us</div>
               </ProtectedRoute>
             }
           />
-          <Route
-            path="register"
-            element={
-              <ProtectedRoute isAllowed={true}>
-                <Register />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="signin" element={<SignIn />} />
           <Route path="*" element={<div>No Match</div>} />
         </Route>
       </Routes>

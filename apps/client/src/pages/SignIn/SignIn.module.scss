@@ -1,11 +1,11 @@
-.RegisterWrapper {
+.SignInWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   padding-top: 100px;
 
-  .RegisterFormWrapper {
+  .SignInFormWrapper {
     width: 400px;
 
     h3 {
@@ -13,7 +13,7 @@
       font-weight: 500;
     }
 
-    .RegisterFormControl {
+    .SignInFormControl {
       margin: 15px 0px;
     }
   }

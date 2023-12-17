@@ -1,16 +1,8 @@
 import './Home.module.scss'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 const Home = () => {
-  const [gretting, setGretting] = useState('')
-
-  useEffect(() => {
-    fetch('/api')
-      .then((res) => res.text())
-      .then(setGretting)
-  }, [])
-
-  return <div>Gritting: {gretting}</div>
+  return <div>Gritting: user</div>
 }
 
 export default Home
