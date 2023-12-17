@@ -6,6 +6,8 @@ import express from 'express'
 async function bootstrap() {
   const PORT = 3001
   const app = await NestFactory.create(AppModule)
+
+  app.enableCors()
   app.setGlobalPrefix('api')
 
   if (process.env.NODE_ENV !== 'development') {
