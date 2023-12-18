@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
 import styles from './SignIn.module.scss'
 import useApi from '../../api/auth'
@@ -33,9 +34,20 @@ export default function SignIn() {
     try {
       const fields = { name: values.name, password: values.password, email: values.email }
       const res = await useApi.signIn(fields)
-      dispatch(signIn({ access_token: res.data.accessToken }))
-      navigate('/')
-    } catch (error) {
+
+      console.log('res', res)
+
+      if (res.data.message) {
+        toast.error(res.data.message)
+      }
+
+      if (res.status === 201) {
+        dispatch(signIn({ access_token: res.data.accessToken }))
+        navigate('/')
+        toast.success('You successfuly signed in')
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log('error', error)
     }
   }

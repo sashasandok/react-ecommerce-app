@@ -41,6 +41,9 @@ axiosApiInstance.interceptors.response.use(
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
       return axiosApiInstance(originalRequest)
     }
+    if (error.response.status === 400 || error.response.status === 404) {
+      return error.response
+    }
     return Promise.reject(error)
   },
 )

@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
 // types
 import { IState } from '../../redux/types'
 // ui components
@@ -20,9 +21,11 @@ const AppHeader = () => {
       const res = await authApi.logout()
       if (res.status === 200) {
         dispatch(logout())
+        toast.success('Successfuly logged out, by')
       }
-    } catch (error) {
-      console.log('error', error)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.success(error?.message)
     }
   }
 
