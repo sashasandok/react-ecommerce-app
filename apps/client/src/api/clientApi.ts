@@ -11,15 +11,15 @@ const refreshAccessToken = async () => {
 axiosApiInstance.interceptors.request.use(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async (config: any) => {
-    const access_token = localStorage.getItem('access_token')
+    const accessToken = localStorage.getItem('accessToken')
 
     config.headers = {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     }
 
-    if (access_token) {
-      config.headers.Authorization = `Bearer ${access_token}`
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`
     }
 
     return config
@@ -37,8 +37,8 @@ axiosApiInstance.interceptors.response.use(
     const originalRequest = error.config
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true
-      const access_token = await refreshAccessToken()
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token
+      const accessToken = await refreshAccessToken()
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + accessToken
       return axiosApiInstance(originalRequest)
     }
     if (error.response.status === 400 || error.response.status === 404) {

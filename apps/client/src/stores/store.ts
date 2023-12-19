@@ -1,6 +1,6 @@
 import { ConfigureStoreOptions, configureStore } from '@reduxjs/toolkit'
 import { logger } from 'redux-logger'
-import authReducer from './auth/slice'
+import authReducer from './auth/store'
 
 export const createStore = (options?: ConfigureStoreOptions['preloadedState'] | undefined) =>
   configureStore({

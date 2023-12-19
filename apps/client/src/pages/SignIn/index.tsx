@@ -1,11 +1,10 @@
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
 import styles from './SignIn.module.scss'
 import useApi from '../../api/auth'
-import { signIn } from '../../redux/auth/slice'
+import { useAuthStore } from '../../stores/auth/store'
 
 type FormValues = {
   name: string
@@ -28,21 +27,19 @@ export default function SignIn() {
   } = useForm<FormValues>()
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const signIn = useAuthStore((state) => state.signIn)
 
   const onSubmit = async (values: IRegisterData) => {
     try {
       const fields = { name: values.name, password: values.password, email: values.email }
       const res = await useApi.signIn(fields)
 
-      console.log('res', res)
-
       if (res.data.message) {
         toast.error(res.data.message)
       }
 
       if (res.status === 201) {
-        dispatch(signIn({ access_token: res.data.accessToken }))
+        signIn({ accessToken: res.data.accessToken })
         navigate('/')
         toast.success('You successfuly signed in')
       }

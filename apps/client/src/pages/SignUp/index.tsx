@@ -1,9 +1,8 @@
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
 import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
 import styles from './SignUp.module.scss'
 import useApi from '../../api/auth'
-import { signUp } from '../../redux/auth/slice'
+import { useAuthStore } from '../../stores/auth/store'
 
 type FormValues = {
   name: string
@@ -26,13 +25,13 @@ export default function SignUp() {
   } = useForm<FormValues>()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch()
+  const signIn = useAuthStore((state) => state.signIn)
 
   const onSubmit = async (values: IRegisterData) => {
     try {
       const fields = { name: values.name, password: values.password, email: values.email }
       const res = await useApi.signUp(fields)
-      dispatch(signUp({ access_token: res.data.accessToken }))
+      signIn({ accessToken: res.data.accessToken })
     } catch (error) {
       console.log('error', error)
     }

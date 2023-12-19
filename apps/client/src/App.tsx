@@ -6,11 +6,10 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import './App.module.scss'
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
-import { useSelector } from 'react-redux'
-import { IState } from './redux/types'
+import { useAuthStore } from './stores/auth/store'
 
 const App = () => {
-  const { isAuthenticated } = useSelector((state: IState) => state.auth)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   return (
     <div>
       <Routes>

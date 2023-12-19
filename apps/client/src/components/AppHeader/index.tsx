@@ -1,33 +1,12 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
-// types
-import { IState } from '../../redux/types'
-// ui components
-import { Button } from '@chakra-ui/react'
-// api
-import authApi from '../../api/auth'
 // store
-import { logout } from '../../redux/auth/slice'
+import { useAuthStore } from '../../stores/auth/store'
 // styles
 import styles from './AppHeader.module.scss'
+import { UserMenu } from '../UserMenu'
 
 const AppHeader = () => {
-  const dispatch = useDispatch()
-  const { isAuthenticated } = useSelector((state: IState) => state.auth)
-
-  const onUserLogout = async () => {
-    try {
-      const res = await authApi.logout()
-      if (res.status === 200) {
-        dispatch(logout())
-        toast.success('Successfuly logged out, by')
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      toast.success(error?.message)
-    }
-  }
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   return (
     <header className={styles.HeaderWrapper}>
@@ -46,30 +25,25 @@ const AppHeader = () => {
             </Link>
           </li>
         ) : null}
-        <li>
+        {/* <li>
           <Link to="/signup">
             <div>Sign Up</div>
           </Link>
-        </li>
-        <li>
-          <Link to="/signin">
-            <div>Sign In</div>
-          </Link>
-        </li>
-        <li>
-          <Link to="/no-match">
-            <div>No Match</div>
-          </Link>
-        </li>
-        {isAuthenticated ? (
+        </li> */}
+      </ul>
+      {isAuthenticated ? (
+        <ul className={styles.UserInfo}>
+          <UserMenu />
+        </ul>
+      ) : (
+        <ul className={styles.Auth}>
           <li>
-            <Button onClick={onUserLogout}>Logout</Button>
+            <Link to="/signin">
+              <div>Sign In</div>
+            </Link>
           </li>
-        ) : null}
-      </ul>
-      <ul className={styles.UserInfo}>
-        <li>user profile</li>
-      </ul>
+        </ul>
+      )}
     </header>
   )
 }
