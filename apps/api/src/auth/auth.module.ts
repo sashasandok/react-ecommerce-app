@@ -1,15 +1,14 @@
 import { Module } from '@nestjs/common'
+import { LocalStrategy } from 'src/common/strategies/local.strategy'
+import { PassportModule } from '@nestjs/passport'
+import { SessionSerializer } from 'src/common/session.serializer'
+import { UserModule } from 'src/users/user.module'
 import { AuthService } from './auth.service'
 import { AuthController } from './auth.controller'
-import { UsersModule } from 'src/users/users.module'
-import { JwtModule } from '@nestjs/jwt'
-// strategies
-import { AccessTokenStrategy } from '../common/strategies/accessToken.strategy'
-import { RefreshTokenStrategy } from '../common/strategies/refreshToken.strategy'
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule],
+  imports: [UserModule, PassportModule.register({ session: true })],
   controllers: [AuthController],
-  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
+  providers: [AuthService, LocalStrategy, SessionSerializer],
 })
 export class AuthModule {}
