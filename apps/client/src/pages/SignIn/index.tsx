@@ -1,10 +1,14 @@
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
-import styles from './SignIn.module.scss'
+// api
 import useApi from '../../api/auth'
+// store
 import { useAuthStore } from '../../stores/auth/store'
+// chakra ui components
+import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
+// styles
+import styles from './SignIn.module.scss'
 
 type FormValues = {
   name: string
@@ -34,12 +38,12 @@ export default function SignIn() {
       const fields = { name: values.name, password: values.password, email: values.email }
       const res = await useApi.signIn(fields)
 
-      if (res.data.message) {
-        toast.error(res.data.message)
+      if (res.statusCode === 400) {
+        toast.error(res.message)
       }
 
-      if (res.status === 201) {
-        signIn({ accessToken: res.data.accessToken })
+      if (res.status === 200) {
+        signIn({ isAuthenticated: true })
         navigate('/')
         toast.success('You successfuly signed in')
       }
@@ -52,7 +56,7 @@ export default function SignIn() {
   return (
     <div className={styles.SignInWrapper}>
       <form onSubmit={handleSubmit(onSubmit)} className={styles.SignInFormWrapper}>
-        <h3>Login</h3>
+        <h3>Sign In</h3>
         <FormControl isInvalid={Boolean(errors?.name)} className={styles.SignInFormControl}>
           <FormLabel htmlFor="name">Email</FormLabel>
           <Input
@@ -82,7 +86,7 @@ export default function SignIn() {
         </FormControl>
 
         <Button mt={4} colorScheme="teal" isLoading={isSubmitting} type="submit">
-          Login
+          Enter
         </Button>
       </form>
     </div>

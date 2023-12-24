@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+// chakra ui components
 import { FormErrorMessage, FormLabel, FormControl, Input, Button } from '@chakra-ui/react'
-import styles from './SignUp.module.scss'
+// store
 import useApi from '../../api/auth'
-import { useAuthStore } from '../../stores/auth/store'
+// styles
+import styles from './SignUp.module.scss'
 
 type FormValues = {
   name: string
@@ -24,14 +27,15 @@ export default function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>()
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const signIn = useAuthStore((state) => state.signIn)
+  const navigate = useNavigate()
 
   const onSubmit = async (values: IRegisterData) => {
     try {
       const fields = { name: values.name, password: values.password, email: values.email }
       const res = await useApi.signUp(fields)
-      signIn({ accessToken: res.data.accessToken })
+      if (res) {
+        navigate('/signin')
+      }
     } catch (error) {
       console.log('error', error)
     }
@@ -51,8 +55,7 @@ export default function SignUp() {
               minLength: { value: 4, message: 'Minimum length should be 4' },
             })}
           />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <FormErrorMessage>{(errors as any)?.name?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.name?.message}</FormErrorMessage>
         </FormControl>
         <FormControl isInvalid={Boolean(errors?.name)} className={styles.SignUpFormControl}>
           <FormLabel htmlFor="name">Email</FormLabel>
@@ -64,8 +67,7 @@ export default function SignUp() {
               minLength: { value: 4, message: 'Minimum length should be 4' },
             })}
           />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <FormErrorMessage>{(errors as any)?.email?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={Boolean(errors?.name)} className={styles.RegisterFormControl}>
@@ -79,8 +81,7 @@ export default function SignUp() {
               minLength: { value: 4, message: 'Minimum length should be 4' },
             })}
           />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <FormErrorMessage>{(errors as any)?.email?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
         </FormControl>
 
         <FormControl isInvalid={Boolean(errors?.name)} className={styles.RegisterFormControl}>
@@ -94,8 +95,7 @@ export default function SignUp() {
               minLength: { value: 4, message: 'Minimum length should be 4' },
             })}
           />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <FormErrorMessage>{(errors as any)?.email?.message}</FormErrorMessage>
+          <FormErrorMessage>{errors?.email?.message}</FormErrorMessage>
         </FormControl>
 
         <Button mt={4} colorScheme="teal" isLoading={isSubmitting} type="submit">
