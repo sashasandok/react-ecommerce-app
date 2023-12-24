@@ -1,4 +1,4 @@
-import { axiosApiInstance } from './clientApi'
+import { post, get } from './clientApi'
 
 interface IRegisterData {
   name: string
@@ -11,12 +11,14 @@ interface ILoginData {
   password: string
 }
 
-const signUp = (data: IRegisterData) => axiosApiInstance.post(`api/auth/signup`, data)
-const signIn = (data: ILoginData) => axiosApiInstance.post(`api/auth/signin`, data)
-const logout = () => axiosApiInstance.get(`api/auth/logout`)
+const signUp = (data: IRegisterData) => post(`auth/signup`, data)
+const signIn = (data: ILoginData) => post(`auth/signin`, data)
+const logout = () => get(`auth/logout`)
+const getMe = () => get(`auth/getme`)
 
 export default {
   signUp,
   signIn,
   logout,
+  getMe,
 }
