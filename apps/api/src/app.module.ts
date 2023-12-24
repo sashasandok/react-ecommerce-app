@@ -10,7 +10,9 @@ import { AuthModule } from './auth/auth.module'
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
     UserModule,
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}.rbangce.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    ),
     AuthModule,
   ],
   controllers: [AppController],

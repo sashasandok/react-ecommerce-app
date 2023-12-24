@@ -11,7 +11,7 @@ async function bootstrap() {
   const PORT = process.env.PORT || 3000
   const app = await NestFactory.create(AppModule)
 
-  const whitelist = ['http://localhost:3001', 'http://localhost:5173']
+  const whitelist = process.env.WHITELIST_ADDRESSES.split(', ')
 
   app.enableCors({
     origin: function (origin, callback) {
@@ -30,19 +30,19 @@ async function bootstrap() {
   app.setGlobalPrefix('api')
 
   const store = new MongoDBStore({
-    uri: process.env.MONGO_URI,
+    uri: `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}.rbangce.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
     collection: 'mySessions',
   })
 
   app.use(
     session({
-      name: 'ecommerce-session',
-      secret: 'secret',
+      name: process.env.SESSION_NAME,
+      secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
         secure: false,
-        maxAge: 60 * 15 * 1000,
+        maxAge: +process.env.SESSION_MAX_AGE,
       },
       store,
     }),
