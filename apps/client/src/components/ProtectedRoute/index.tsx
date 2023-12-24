@@ -1,18 +1,19 @@
 import { FC, ReactNode } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import { useAuthAccess } from '../../hooks/useAuthAccess'
 
 interface IProtectedRouteProps {
-  isAllowed: boolean
   redirectPath?: string
   children?: ReactNode
 }
 
 export const ProtectedRoute: FC<IProtectedRouteProps> = ({
-  isAllowed,
-  redirectPath = '/login',
+  redirectPath = '/signin',
   children,
 }) => {
-  if (!isAllowed) {
+  const isAuthenticated = useAuthAccess()
+
+  if (!isAuthenticated) {
     return <Navigate to={redirectPath} replace />
   }
 

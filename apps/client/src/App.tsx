@@ -1,24 +1,33 @@
 import { Routes, Route } from 'react-router-dom'
-import { router } from './routes'
-import MainLayout from './layouts/MainLayout'
-import Home from './pages/Home/Home'
+// router
 import { ProtectedRoute } from './components/ProtectedRoute'
-import './App.module.scss'
+import { router } from './routes'
+// layouts
+import MainLayout from './layouts/MainLayout'
+// pages
 import SignUp from './pages/SignUp'
 import SignIn from './pages/SignIn'
-import { useAuthStore } from './stores/auth/store'
+import Home from './pages/Home/Home'
+// styles
+import './App.module.scss'
 
 const App = () => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   return (
     <div>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="about"
             element={
-              <ProtectedRoute isAllowed={isAuthenticated}>
+              <ProtectedRoute>
                 <div>About us</div>
               </ProtectedRoute>
             }
